@@ -28,12 +28,12 @@ mega_links = links + links2
 mega_subtext = subtext + subtext2
 
 
-# Define a function to sort the articles by the number of votes
+# Function to sort the articles by the number of votes
 def sort_stories_by_votes(hnlist):
     return sorted(hnlist, key=lambda k: k["votes"], reverse=True)
 
 
-# Define a function to create a custom list of Hacker News articles with more than 99 votes
+# Function to create a custom list of Hacker News articles with more than 99 votes
 def create_custom_hn(links, subtext):
     hn = []
     for idx, item in enumerate(links):
