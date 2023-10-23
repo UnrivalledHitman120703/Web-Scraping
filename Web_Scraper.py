@@ -2,30 +2,38 @@
 # Name = Indrajeet Mondal; Date = 24th October 2023
 # SourceCode
 
+# Import necessary libraries
 import requests
 from bs4 import BeautifulSoup
 import pprint
 
+# Send HTTP GET requests to the first and second pages of Hacker News
 res = requests.get("https://news.ycombinator.com/news")
 res2 = requests.get("https://news.ycombinator.com/news?p=2")
+
+# Parse the HTML content of the web pages using BeautifulSoup
 soup = BeautifulSoup(res.text, "html.parser")
 soup2 = BeautifulSoup(res2.text, "html.parser")
 
-# heads up! .storylink changed to .titleline
+# Select the elements containing news article titles and subtext on the first page
 links = soup.select(".titleline > a")
 subtext = soup.select(".subtext")
-# heads up! .storylink changed to .titleline
+
+# Select the elements containing news article titles and subtext on the second page
 links2 = soup2.select(".titleline > a")
 subtext2 = soup2.select(".subtext")
 
+# Combine the links and subtext from both pages
 mega_links = links + links2
 mega_subtext = subtext + subtext2
 
 
+# Define a function to sort the articles by the number of votes
 def sort_stories_by_votes(hnlist):
     return sorted(hnlist, key=lambda k: k["votes"], reverse=True)
 
 
+# Define a function to create a custom list of Hacker News articles with more than 99 votes
 def create_custom_hn(links, subtext):
     hn = []
     for idx, item in enumerate(links):
@@ -39,4 +47,5 @@ def create_custom_hn(links, subtext):
     return sort_stories_by_votes(hn)
 
 
+# Pretty-print the custom list of articles sorted by votes
 pprint.pprint(create_custom_hn(mega_links, mega_subtext))
